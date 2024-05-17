@@ -8,6 +8,9 @@ use App\Http\Controllers\SniController;
 use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\CicloController;
 use App\Http\Controllers\MateriaController;
+use App\Http\Controllers\GradoController;
+use App\Http\Controllers\ProfesorController;
+
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -39,10 +42,12 @@ Route::middleware('auth','isActive')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
+    Route::resource('profesores', ProfesorController::class);
     Route::resource('campus', CampusController::class);
     Route::resource('carreras', CarreraController::class);
     Route::resource('materias', MateriaController::class);
     Route::resource('categorias', CategoriaController::class);
+    Route::resource('grados', GradoController::class);
     Route::resource('sni', SniController::class);
     Route::resource('ciclos', CicloController::class);
     

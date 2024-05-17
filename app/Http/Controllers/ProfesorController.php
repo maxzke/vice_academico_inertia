@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Profesor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as PostRequest;
+use Inertia\Inertia;
+use Illuminate\Validation\Rule;
 
 class ProfesorController extends Controller
 {
@@ -12,7 +15,16 @@ class ProfesorController extends Controller
      */
     public function index()
     {
-        //
+        $param = PostRequest::get('search');
+        $param = ($param == NULL) ? ($param = '') : $param;
+        $totalItems = Profesor::all()->count();
+        $all = Profesor::where('nombre', 'like','%'.$param.'%')->orderBy('nombre','asc')->paginate(50);
+        
+        return Inertia::render('Profesores/Index',
+        [
+            'all' => $all,
+            'totalItem' => $totalItems,
+        ]);
     }
 
     /**
