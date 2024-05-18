@@ -6,7 +6,7 @@
                 <div class="col-12 col-md-4 text-gray-700">
                     <h5 class="flex align-items-center h5 ps-2">
                         Campus
-                        <span class="badge bg-gray-500 ms-2">{{
+                        <span class="badge bg-gray-400 ms-2">{{
                             this.totalItem
                         }}</span>
                     </h5>

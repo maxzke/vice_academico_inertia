@@ -1,93 +1,223 @@
 <template>
-    <AddButton @click="openModal()">
-        <i class="fa-solid fa-plus pe-1"></i> Agregar
-    </AddButton>
-    <AddConfirmationModal
-        :show="confirmingOpenModal"
-        @close="confirmingOpenModal = false"
-        maxWidth="sm"
-    >
-        <template #title> agregar nuevo </template>
-
-        <template #content>
+    <Head title="Profesores" />
+    <AuthenticatedLayout>
+        <section class="py-2">
+            <h5 class="h5">Registrar Profesor</h5>
             <form @submit.prevent="store">
-                <div class="px-6">
-                    <InputLabel for="nombre" value="Nombre" />
-                    <TextInput
-                        v-model="this.form.nombre"
-                        id="nombre"
-                        ref="input_nombre"
-                        required
-                        autocomplete="off"
-                    />
-                    <InputError class="mt-2" :message="form.errors.nombre" />
+                <div class="row justify-content-center align-items-center g-2">
+                    <div class="col-5">
+                        <InputLabel for="nombre" value="Nombre completo" />
+                        <TextInput
+                            v-model="this.form.nombre"
+                            id="nombre"
+                            required
+                            autocomplete="off"
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.nombre"
+                        />
+                    </div>
+                    <div class="col-3">
+                        <InputLabel for="ingreso" value="Ingreso" />
+                        <TextInput
+                            v-model="this.form.ingreso"
+                            id="ingreso"
+                            required
+                            type="date"
+                            autocomplete="off"
+                        />
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.ingreso"
+                        />
+                    </div>
+                    <div class="col-2">
+                        <InputLabel for="sexo" value="Sexo" />
+                        <select
+                            class="mt-1 pt-1 h-8 text-gray-900 text-sm text-capitalize focus:border-gray-300 focus:ring-0 border-gray-300"
+                            id="sexo"
+                            v-model="this.form.sexo"
+                        >
+                            <option disabled selected value="SELECCIONAR">
+                                SELECCIONAR
+                            </option>
+                            <option value="mujer">Mujer</option>
+                            <option value="hombre">Hombre</option>
+                        </select>
+                        <InputError :message="form.errors.sexo" />
+                    </div>
                 </div>
+                <div
+                    class="row mt-3 justify-content-center align-items-center g-2"
+                >
+                    <!-- campus -->
+                    <div class="col-3">
+                        <InputLabel for="campus" value="Campus" />
+                        <vSelect
+                            id="campus"
+                            v-if="this.campus.length > 0"
+                            v-model="this.form.campus_id"
+                            :options="this.campus"
+                            label="nombre"
+                            class="bg-white focus:border-none h-8 border-gray-200 text-gray-900 text-sm text-capitalize"
+                        >
+                            <template
+                                #no-options="{ search, searching, loading }"
+                            >
+                                No hay datos...
+                            </template>
+                        </vSelect>
 
-                <div class="flex flex-row justify-end px-6 mt-4 text-right">
-                    <SecondaryButton type="button" @click="this.closeModal()">
-                        Cerrar
-                    </SecondaryButton>
+                        <InputError :message="form.errors.campus" />
+                    </div>
+                    <!-- sni -->
+                    <div class="col-3">
+                        <InputLabel for="sni" value="Sni" />
+                        <vSelect
+                            id="sni"
+                            v-if="this.snis.length > 0"
+                            v-model="this.form.sni_id"
+                            :options="this.snis"
+                            label="nombre"
+                            class="bg-white focus:border-none h-8 border-gray-200 text-gray-900 text-sm text-capitalize"
+                        >
+                            <template
+                                #no-options="{ search, searching, loading }"
+                            >
+                                No hay datos...
+                            </template>
+                        </vSelect>
 
-                    <SaveButton
-                        class="ml-2"
-                        type="submit"
-                        :disabled="this.form.processing"
-                    >
-                        Guardar
-                    </SaveButton>
+                        <InputError :message="form.errors.snis" />
+                    </div>
+                    <!-- categorias -->
+                    <div class="col-4">
+                        <InputLabel for="sni" value="Categoria" />
+                        <vSelect
+                            id="sni"
+                            v-if="this.categorias.length > 0"
+                            v-model="this.form.categoria_id"
+                            :options="this.categorias"
+                            label="nombre"
+                            class="bg-white focus:border-none h-8 border-gray-200 text-gray-900 text-sm text-capitalize"
+                        >
+                            <template
+                                #no-options="{ search, searching, loading }"
+                            >
+                                No hay datos...
+                            </template>
+                        </vSelect>
+
+                        <InputError :message="form.errors.categoria_id" />
+                    </div>
+                </div>
+                <div
+                    class="row mt-3 justify-content-center align-items-center g-2"
+                >
+                    <!-- carrera -->
+                    <div class="col-7">
+                        <InputLabel for="carreras" value="Carrera" />
+                        <vSelect
+                            id="carreras"
+                            v-if="this.carreras.length > 0"
+                            v-model="this.form.carrera_id"
+                            :options="this.carreras"
+                            label="nombre"
+                            class="bg-white focus:border-none h-8 border-gray-200 text-gray-900 text-sm text-capitalize"
+                        >
+                            <template
+                                #no-options="{ search, searching, loading }"
+                            >
+                                No hay datos...
+                            </template>
+                        </vSelect>
+
+                        <InputError :message="form.errors.campus" />
+                    </div>
+                    <!-- fecha -->
+                    <div class="col-3">
+                        <InputLabel
+                            for="fecha"
+                            value="Fecha de ingreso a la carrera"
+                        />
+                        <TextInput
+                            v-model="this.form.fecha"
+                            id="fecha"
+                            required
+                            type="date"
+                            autocomplete="off"
+                        />
+                        <InputError :message="form.errors.snis" />
+                    </div>
                 </div>
             </form>
-        </template>
-    </AddConfirmationModal>
+        </section>
+    </AuthenticatedLayout>
 </template>
+
 <script>
-import { defineComponent, nextTick, ref } from "vue";
+import { defineComponent } from "vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import AddButton from "@/Components/AddButton.vue";
-import AddConfirmationModal from "@/Components/AddConfirmationModal.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
-import SaveButton from "@/Components/SaveButton.vue";
+import Delete from "@/Pages/Profesores/Delete.vue";
+import Update from "@/Pages/Profesores/Update.vue";
+import pagination from "@/Components/Pagination.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
-import Swal from "sweetalert2";
-
+import vSelect from "vue-select";
+import { Link } from "@inertiajs/vue3";
+import { Head } from "@inertiajs/vue3";
+import "vue-select/dist/vue-select.css";
 export default defineComponent({
     components: {
+        AuthenticatedLayout,
         AddButton,
-        AddConfirmationModal,
-        SecondaryButton,
-        SaveButton,
+        Delete,
+        Update,
+        Head,
+        Link,
+        pagination,
         TextInput,
         InputLabel,
         InputError,
+        vSelect,
     },
-    props: {},
+    props: {
+        campus: Object,
+        snis: Object,
+        categorias: Object,
+        carreras: Object,
+    },
     data() {
         return {
             form: this.$inertia.form({
                 nombre: null,
+                apellido_p: null,
+                apellido_m: null,
+                ingreso: null,
+                sexo: null,
+                campus_id: null,
+                sni_id: null,
+                categoria_id: null,
+                carrera_id: null,
             }),
-            confirmingOpenModal: false,
         };
     },
+    mounted() {},
     methods: {
-        openModal() {
-            this.confirmingOpenModal = true;
-            nextTick(() => this.$refs.input_nombre.$el.focus());
-        },
-        closeModal() {
-            this.confirmingOpenModal = false;
-            this.form.reset();
-        },
         store() {
-            this.form.post(this.route("grados.store"), {
+            this.form.post(this.route("profesores.store"), {
                 onSuccess: (res) => [
                     this.closeModal(),
                     this.form.reset(),
                     alertify.success("Guardado."),
                 ],
+                onError: (msg) => [alertify.error("No guardado.")],
             });
         },
     },
+    watch: {},
 });
 </script>

@@ -19,11 +19,8 @@ return new class extends Migration
             $table->foreign('sni_id')->references('id')->on('sni');
             $table->foreignId('categoria_id');
             $table->foreign('categoria_id')->references('id')->on('categorias');
-            $table->string('nombre');
-            $table->string('apellido_p');
-            $table->string('apellido_m');
-            $table->unique(['nombre','apellido_p','apellido_m']);
-            $table->timestamp('ingreso');
+            $table->string('nombre')->unique();
+            $table->date('ingreso')->nullable();
             $table->string('sexo');
             $table->timestamps();
         });

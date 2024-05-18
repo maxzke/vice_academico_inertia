@@ -3,10 +3,10 @@
     <AuthenticatedLayout>
         <section class="py-2">
             <div class="row">
-                <div class="col-12 col-md-4 text-indigo-800">
+                <div class="col-12 col-md-4 text-gray-700">
                     <h5 class="flex align-items-center h5 ps-2">
                         Grados
-                        <span class="badge bg-indigo-400 ms-2">{{
+                        <span class="badge bg-gray-400 ms-2">{{
                             this.totalItem
                         }}</span>
                     </h5>

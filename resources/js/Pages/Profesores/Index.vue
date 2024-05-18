@@ -3,10 +3,10 @@
     <AuthenticatedLayout>
         <section class="py-2">
             <div class="row">
-                <div class="col-12 col-md-4 text-indigo-800">
+                <div class="col-12 col-md-4 text-gray-700">
                     <h5 class="flex align-items-center h5 ps-2">
                         Profesores
-                        <span class="badge bg-indigo-400 ms-2">{{
+                        <span class="badge bg-gray-400 ms-2">{{
                             this.totalItem
                         }}</span>
                     </h5>
@@ -22,7 +22,9 @@
                     />
                 </div>
                 <div class="col-2 col-md-3">
-                    <Add />
+                    <AddButton @click="this.create()">
+                        <i class="fa-solid fa-plus pe-1"></i> Agregar
+                    </AddButton>
                 </div>
             </div>
             <div class="row mt-3">
@@ -70,7 +72,7 @@
 <script>
 import { defineComponent } from "vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Add from "@/Pages/Profesores/Add.vue";
+import AddButton from "@/Components/AddButton.vue";
 import Delete from "@/Pages/Profesores/Delete.vue";
 import Update from "@/Pages/Profesores/Update.vue";
 import pagination from "@/Components/Pagination.vue";
@@ -82,7 +84,7 @@ import pickBy from "lodash/pickBy";
 export default defineComponent({
     components: {
         AuthenticatedLayout,
-        Add,
+        AddButton,
         Delete,
         Update,
         Head,
@@ -101,7 +103,11 @@ export default defineComponent({
         };
     },
     mounted() {},
-    methods: {},
+    methods: {
+        create() {
+            this.$inertia.get(this.route("profesores.create"));
+        },
+    },
     watch: {
         paramSearch: {
             deep: true,

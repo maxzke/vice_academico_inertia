@@ -1,11 +1,10 @@
 <template>
     <button
         role="button"
-        class="btn btn-sm btn-spinner text-white bg-slate-400 hover:bg-indigo-400 h-7 pt-1"
+        class="btn btn-sm btn-spinner text-white bg-slate-400 hover:bg-amber-400 h-7 pt-1"
         @click="openModal()"
     >
         <i class="fas fa-pen"></i>
-        <!-- <i class="fa-solid fa-pen-to-square fa-xs"></i>-->
     </button>
     <UpdateConfirmationModal
         :show="confirmingOpenModal"

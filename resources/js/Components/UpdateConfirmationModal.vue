@@ -31,7 +31,7 @@ const close = () => {
         @close="close"
     >
         <div
-            class="flex flex-row justify-start px-6 py-2 bg-indigo-400 text-lg fw-bold text-capitalize text-white"
+            class="flex flex-row justify-start px-6 py-2 bg-amber-400 text-lg fw-bold text-capitalize text-white"
         >
             <slot name="title" />
         </div>
