@@ -17,8 +17,11 @@ return new class extends Migration
             $table->foreign('profesor_id')->references('id')->on('profesores');
             $table->foreignId('carrera_id');
             $table->foreign('carrera_id')->references('id')->on('carreras');
+
             $table->unique(['profesor_id','carrera_id']);
+
             $table->date('fecha')->nullable();
+            
             $table->timestamps();
         });
     }

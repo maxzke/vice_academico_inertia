@@ -22,7 +22,7 @@ class ProfesorController extends Controller
         $param = PostRequest::get('search');
         $param = ($param == NULL) ? ($param = '') : $param;
         $totalItems = Profesor::all()->count();
-        $all = Profesor::where('nombre', 'like','%'.$param.'%')->orderBy('nombre','asc')->paginate(50);
+        $all = Profesor::with('campus')->with('categoria')->with('sni')->with('carreras')->where('nombre', 'like','%'.$param.'%')->orderBy('nombre','asc')->paginate(50);
         
         return Inertia::render('Profesores/Index',
         [
@@ -77,14 +77,15 @@ class ProfesorController extends Controller
             [
                 'nombre' => $request->nombre,
                 'sexo' => $request->sexo,
-                'campus_id' => $request->campus_id,
-                'sni_id' => $request->sni_id,
-                'categoria_id' => $request->categoria_id
+                'ingreso' => $request->ingreso,
+                'campus_id' => $request->campus_id['id'],
+                'sni_id' => $request->sni_id['id'],
+                'categoria_id' => $request->categoria_id['id']
             ]
         );
         try {
             $profesor = Profesor::find($profesor_saved->id);
-            $profesor->carreras()->attach($request->carrera_id,
+            $profesor->carreras()->attach($request->carrera_id['id'],
                     [
                         'fecha' => $request->fecha,
                     ]

@@ -2,7 +2,7 @@
     <Head title="Profesores" />
     <AuthenticatedLayout>
         <section class="py-2">
-            <h5 class="h5">Registrar Profesor</h5>
+            <h5 class="h5 text-center">Registrar Profesor</h5>
             <form @submit.prevent="store">
                 <div class="row justify-content-center align-items-center g-2">
                     <div class="col-5">
@@ -37,6 +37,7 @@
                         <select
                             class="mt-1 pt-1 h-8 text-gray-900 text-sm text-capitalize focus:border-gray-300 focus:ring-0 border-gray-300"
                             id="sexo"
+                            required
                             v-model="this.form.sexo"
                         >
                             <option disabled selected value="SELECCIONAR">
@@ -69,7 +70,7 @@
                             </template>
                         </vSelect>
 
-                        <InputError :message="form.errors.campus" />
+                        <InputError :message="form.errors.campus_id" />
                     </div>
                     <!-- sni -->
                     <div class="col-3">
@@ -88,8 +89,7 @@
                                 No hay datos...
                             </template>
                         </vSelect>
-
-                        <InputError :message="form.errors.snis" />
+                        <InputError :message="form.errors.sni_id" />
                     </div>
                     <!-- categorias -->
                     <div class="col-4">
@@ -115,6 +115,11 @@
                 <div
                     class="row mt-3 justify-content-center align-items-center g-2"
                 >
+                    <div class="col-12 text-center">
+                        <h5 class="h5 text-gray-700">Adscripción</h5>
+                    </div>
+                </div>
+                <div class="row justify-content-center align-items-center g-2">
                     <!-- carrera -->
                     <div class="col-7">
                         <InputLabel for="carreras" value="Carrera" />
@@ -133,7 +138,7 @@
                             </template>
                         </vSelect>
 
-                        <InputError :message="form.errors.campus" />
+                        <InputError :message="form.errors.carrera_id" />
                     </div>
                     <!-- fecha -->
                     <div class="col-3">
@@ -148,7 +153,20 @@
                             type="date"
                             autocomplete="off"
                         />
-                        <InputError :message="form.errors.snis" />
+                        <InputError :message="form.errors.fecha" />
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-12 text-center">
+                        <SecondaryButton @click="this.volver()" class="mr-2">
+                            Cancelar
+                        </SecondaryButton>
+                        <PrimaryButton
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
+                        >
+                            Guardar
+                        </PrimaryButton>
                     </div>
                 </div>
             </form>
@@ -166,6 +184,8 @@ import pagination from "@/Components/Pagination.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 import vSelect from "vue-select";
 import { Link } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
@@ -183,6 +203,8 @@ export default defineComponent({
         InputLabel,
         InputError,
         vSelect,
+        PrimaryButton,
+        SecondaryButton,
     },
     props: {
         campus: Object,
@@ -198,6 +220,7 @@ export default defineComponent({
                 apellido_m: null,
                 ingreso: null,
                 sexo: null,
+                fecha: null,
                 campus_id: null,
                 sni_id: null,
                 categoria_id: null,
@@ -210,12 +233,14 @@ export default defineComponent({
         store() {
             this.form.post(this.route("profesores.store"), {
                 onSuccess: (res) => [
-                    this.closeModal(),
                     this.form.reset(),
                     alertify.success("Guardado."),
                 ],
                 onError: (msg) => [alertify.error("No guardado.")],
             });
+        },
+        volver() {
+            this.$inertia.get(this.route("profesores.index"));
         },
     },
     watch: {},

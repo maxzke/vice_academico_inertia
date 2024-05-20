@@ -34,6 +34,10 @@
                     <table class="w-full whitespace-nowrap">
                         <tr class="text-left font-bold">
                             <th class="pb-3 pt-6 px-6">Nombre</th>
+                            <th class="pb-3 pt-6 px-6">Campus</th>
+                            <th class="pb-3 pt-6 px-6">Categoria</th>
+                            <th class="pb-3 pt-6 px-6">Sni</th>
+                            <th class="pb-3 pt-6 px-6">Carrera</th>
                             <th></th>
                         </tr>
                         <tbody>
@@ -48,12 +52,64 @@
                                         v-text="item.nombre"
                                     ></span>
                                 </td>
+                                <td class="text-capitalize border-t py-3">
+                                    <span
+                                        class="px-4"
+                                        v-text="item.campus.nombre"
+                                    ></span>
+                                </td>
+                                <td class="text-capitalize border-t py-3">
+                                    <span
+                                        class="px-4"
+                                        v-text="item.categoria.nombre"
+                                    ></span>
+                                </td>
+                                <td class="text-capitalize border-t py-3">
+                                    <span
+                                        class="px-4"
+                                        v-text="item.sni.nombre"
+                                    ></span>
+                                </td>
+                                <td class="text-capitalize border-t py-3">
+                                    <span
+                                        class="px-4"
+                                        v-text="item.carreras[0].nombre"
+                                    ></span>
+                                </td>
                                 <td class="border-t">
-                                    <Update :item="item" />
+                                    <!-- <Update :item="item" />
                                     <Delete
                                         :item_id="item.id"
                                         :item_nombre="item.nombre"
-                                    />
+                                    /> 
+                                    <i
+                                        class="px-4 fa-solid fa-angle-right text-slate-400"
+                                    ></i>-->
+                                    <dropdown>
+                                        <template #trigger>
+                                            <i
+                                                class="fa-solid fa-ellipsis-vertical"
+                                            ></i>
+                                        </template>
+                                        <template #content>
+                                            <dropdown-link
+                                                class="w-full text-left"
+                                                :href="route('profile.edit')"
+                                                method="get"
+                                                as="button"
+                                            >
+                                                Perfil
+                                            </dropdown-link>
+                                            <dropdown-link
+                                                class="w-full text-left"
+                                                :href="route('logout')"
+                                                method="post"
+                                                as="button"
+                                            >
+                                                Salir
+                                            </dropdown-link>
+                                        </template>
+                                    </dropdown>
                                 </td>
                             </tr>
                         </tbody>
@@ -80,6 +136,7 @@ import debounce from "lodash/debounce";
 import { Link } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
 import pickBy from "lodash/pickBy";
+import Dropdown from "@/Components/Dropdown.vue";
 
 export default defineComponent({
     components: {
@@ -90,6 +147,7 @@ export default defineComponent({
         Head,
         Link,
         pagination,
+        Dropdown,
     },
     props: {
         all: Object,
@@ -106,6 +164,9 @@ export default defineComponent({
     methods: {
         create() {
             this.$inertia.get(this.route("profesores.create"));
+        },
+        show(item) {
+            this.$inertia.get(this.route("profesores.show", item));
         },
     },
     watch: {
