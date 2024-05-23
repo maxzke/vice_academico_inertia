@@ -42,9 +42,10 @@
                         </tr>
                         <tbody>
                             <tr
-                                class="align-middle hover:bg-slate-100 focus-within:bg-slate-100"
-                                v-for="(item, i) in this.all.data"
+                                class="align-middle hover:bg-slate-100 focus-within:bg-slate-100 cursor-pointer"
+                                v-for="item in this.all.data"
                                 :key="item.id"
+                                @click="show(item)"
                             >
                                 <td class="text-capitalize border-t py-3">
                                     <span
@@ -77,39 +78,9 @@
                                     ></span>
                                 </td>
                                 <td class="border-t">
-                                    <!-- <Update :item="item" />
-                                    <Delete
-                                        :item_id="item.id"
-                                        :item_nombre="item.nombre"
-                                    /> 
                                     <i
                                         class="px-4 fa-solid fa-angle-right text-slate-400"
-                                    ></i>-->
-                                    <dropdown>
-                                        <template #trigger>
-                                            <i
-                                                class="fa-solid fa-ellipsis-vertical"
-                                            ></i>
-                                        </template>
-                                        <template #content>
-                                            <dropdown-link
-                                                class="w-full text-left"
-                                                :href="route('profile.edit')"
-                                                method="get"
-                                                as="button"
-                                            >
-                                                Perfil
-                                            </dropdown-link>
-                                            <dropdown-link
-                                                class="w-full text-left"
-                                                :href="route('logout')"
-                                                method="post"
-                                                as="button"
-                                            >
-                                                Salir
-                                            </dropdown-link>
-                                        </template>
-                                    </dropdown>
+                                    ></i>
                                 </td>
                             </tr>
                         </tbody>
@@ -130,7 +101,6 @@ import { defineComponent } from "vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import AddButton from "@/Components/AddButton.vue";
 import Delete from "@/Pages/Profesores/Delete.vue";
-import Update from "@/Pages/Profesores/Update.vue";
 import pagination from "@/Components/Pagination.vue";
 import debounce from "lodash/debounce";
 import { Link } from "@inertiajs/vue3";
@@ -143,7 +113,6 @@ export default defineComponent({
         AuthenticatedLayout,
         AddButton,
         Delete,
-        Update,
         Head,
         Link,
         pagination,
@@ -163,10 +132,10 @@ export default defineComponent({
     mounted() {},
     methods: {
         create() {
-            this.$inertia.get(this.route("profesores.create"));
+            this.$inertia.get(this.route("profesor.create"));
         },
-        show(item) {
-            this.$inertia.get(this.route("profesores.show", item));
+        show(profesor) {
+            this.$inertia.get(this.route("profesor.show", profesor));
         },
     },
     watch: {

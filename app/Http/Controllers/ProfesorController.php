@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as PostRequest;
 use Inertia\Inertia;
 use Illuminate\Validation\Rule;
+// use Inertia\Response;
+// use Illuminate\Http\RedirectResponse;
 
 class ProfesorController extends Controller
 {
@@ -22,7 +24,13 @@ class ProfesorController extends Controller
         $param = PostRequest::get('search');
         $param = ($param == NULL) ? ($param = '') : $param;
         $totalItems = Profesor::all()->count();
-        $all = Profesor::with('campus')->with('categoria')->with('sni')->with('carreras')->where('nombre', 'like','%'.$param.'%')->orderBy('nombre','asc')->paginate(50);
+        $all = Profesor::with('campus')
+            ->with('categoria')
+            ->with('sni')
+            ->with(['carreras' => fn($query) => $query->orderBy('id','desc')])
+            ->where('nombre', 'like','%'.$param.'%')
+            ->orderBy('nombre','asc')
+            ->paginate(50);
         
         return Inertia::render('Profesores/Index',
         [
@@ -65,12 +73,13 @@ class ProfesorController extends Controller
                 'carrera_id'=> 'required'
             ],
             [
-                'nombre.required' => 'El nombre es requerido',
-                'nombre.unique' => 'El nombre ya se encuentra registrado',
-                'campus_id.required' => 'El campus es requerido',
-                'sni_id.required' => 'El sni es requerido',
-                'categoria_id.required' => 'La categoria es requerida',
-                'carrera_id.required' => 'La carrera es requerida',
+                'nombre.required' => 'es requerido',
+                'sexo.required' => 'es requerido',
+                'nombre.unique' => 'ya se encuentra registrado',
+                'campus_id.required' => 'es requerido',
+                'sni_id.required' => 'es requerido',
+                'categoria_id.required' => 'es requerida',
+                'carrera_id.required' => 'es requerida',
             ]
         );
         $profesor_saved = Profesor::create(
@@ -78,9 +87,9 @@ class ProfesorController extends Controller
                 'nombre' => $request->nombre,
                 'sexo' => $request->sexo,
                 'ingreso' => $request->ingreso,
-                'campus_id' => $request->campus_id['id'],
-                'sni_id' => $request->sni_id['id'],
-                'categoria_id' => $request->categoria_id['id']
+                'campus_id' => $request->campus_id,
+                'sni_id' => $request->sni_id,
+                'categoria_id' => $request->categoria_id
             ]
         );
         try {
@@ -102,7 +111,20 @@ class ProfesorController extends Controller
      */
     public function show(Profesor $profesor)
     {
-        //
+        $campus = Campus::all();
+        $snis= Sni::all();
+        $categorias= Categoria::all();
+        $carreras= Carrera::all();
+
+        $profesorConCarreras = Profesor::with(['carreras' => fn($query) => $query->orderBy('id','desc')])->find($profesor->id);
+        return Inertia::render('Profesores/Edit',
+        [
+            'profesor' => $profesorConCarreras,
+            'campus' => $campus,
+            'snis' => $snis,
+            'categorias' => $categorias,
+            'carreras' => $carreras
+        ]);
     }
 
     /**
@@ -110,7 +132,7 @@ class ProfesorController extends Controller
      */
     public function edit(Profesor $profesor)
     {
-        //
+        
     }
 
     /**
@@ -118,7 +140,43 @@ class ProfesorController extends Controller
      */
     public function update(Request $request, Profesor $profesor)
     {
-        //
+        switch ($request->type) {
+            case 'profesor':
+                $profesor->update(
+                    $request->validate(
+                        [            
+                            'nombre' => ['required', 'string', Rule::unique('profesores')->ignore($profesor->id)],
+                            'sexo'=> 'required|string',
+                            'campus_id'=> 'required',
+                            'sni_id'=> 'required',
+                            'categoria_id'=> 'required',
+                        ],
+                        [
+                            'nombre.required' => 'es requerido',
+                            'nombre.unique' => 'ya se encuentra registrado',
+                            'campus_id.required' => 'es requerido',
+                            'sni_id.required' => 'es requerido',
+                            'categoria_id.required' => 'es requerida',
+                        ]
+                    )
+                );
+                return back()->with(['success'=> true]);
+                break;
+            case 'adscripcion':
+                try {
+                    $profesor->carreras()->attach($request->carrera_id['id'],
+                            [
+                                'fecha' => $request->fecha,
+                            ]
+                    );
+                    return back()->with(['success'=> true]);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    return back()->withErrors(['error'=> 'ya se encuentra registrado en la carrera']);
+                }   
+                break;
+        }
+        
     }
 
     /**

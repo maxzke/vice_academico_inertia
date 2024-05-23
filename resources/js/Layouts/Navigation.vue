@@ -37,8 +37,8 @@
             </nav-link>
             <nav-link
                 class="mt-2"
-                :href="route('profesores.index')"
-                :active="route().current('profesores.*')"
+                :href="route('profesor.index')"
+                :active="route().current('profesor.*')"
                 ><i class="fa-solid fa-user-tie"></i>
                 <span class="ps-2">Profesores</span></nav-link
             >

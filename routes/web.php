@@ -42,7 +42,7 @@ Route::middleware('auth','isActive')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    Route::resource('profesores', ProfesorController::class);
+    Route::resource('profesor', ProfesorController::class);
     Route::resource('campus', CampusController::class);
     Route::resource('carreras', CarreraController::class);
     Route::resource('materias', MateriaController::class);

@@ -62,6 +62,7 @@ class CampusController extends Controller
      */
     public function show(Campus $campus)
     {
+        return $campus;
         return Inertia::render('Campus/Show',
         [
             'item' => $campus,

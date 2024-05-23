@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,9 +23,6 @@ class Profesor extends Model
     public function carreras(){
         return $this->belongsToMany(Carrera::class)->withPivot('fecha');                                                     
     }
-    // public function carrera(){
-    //     return $this->belongsTo(Carrera::class);
-    // }
     public function grados(){
         return $this->belongsToMany(Grado::class);
     }
@@ -37,5 +34,13 @@ class Profesor extends Model
     }
     public function sni(){
         return $this->belongsTo(Sni::class);
+    }
+
+    protected function nombre(): Attribute
+    {
+        return Attribute::make(
+            //get: fn (string $value) => strtolower($value),
+            set: fn (string $value) => strtolower($value),
+        );
     }
 }
