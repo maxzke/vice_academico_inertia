@@ -6,6 +6,7 @@ use App\Models\Profesor;
 use App\Models\Campus;
 use App\Models\Carrera;
 use App\Models\Categoria;
+use App\Models\Grado;
 use App\Models\Sni;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as PostRequest;
@@ -27,7 +28,8 @@ class ProfesorController extends Controller
         $all = Profesor::with('campus')
             ->with('categoria')
             ->with('sni')
-            ->with(['carreras' => fn($query) => $query->orderBy('id','desc')])
+            ->with(['carreras' => fn($query) => $query->orderBy('fecha','desc')])
+            ->with(['grados' => fn($query) => $query->orderBy('id','desc')])
             ->where('nombre', 'like','%'.$param.'%')
             ->orderBy('nombre','asc')
             ->paginate(50);
@@ -48,13 +50,15 @@ class ProfesorController extends Controller
         $snis= Sni::all();
         $categorias= Categoria::all();
         $carreras= Carrera::all();
+        $grados = Grado::all();
 
         return Inertia::render('Profesores/Add',
         [
             'campus' => $campus,
             'snis' => $snis,
             'categorias' => $categorias,
-            'carreras' => $carreras
+            'carreras' => $carreras,
+            'grados' => $grados
         ]);
     }
 
@@ -111,10 +115,19 @@ class ProfesorController extends Controller
      */
     public function show(Profesor $profesor)
     {
+        
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Profesor $profesor)
+    {
         $campus = Campus::all();
         $snis= Sni::all();
         $categorias= Categoria::all();
         $carreras= Carrera::all();
+        $grados = Grado::all();
 
         $profesorConCarreras = Profesor::with(['carreras' => fn($query) => $query->orderBy('id','desc')])->find($profesor->id);
         return Inertia::render('Profesores/Edit',
@@ -123,16 +136,9 @@ class ProfesorController extends Controller
             'campus' => $campus,
             'snis' => $snis,
             'categorias' => $categorias,
-            'carreras' => $carreras
+            'carreras' => $carreras,
+            'grados' => $grados
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Profesor $profesor)
-    {
-        
     }
 
     /**

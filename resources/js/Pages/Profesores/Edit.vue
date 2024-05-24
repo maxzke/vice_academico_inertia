@@ -3,7 +3,7 @@
     <AuthenticatedLayout>
         <section class="py-2">
             <form @submit.prevent="update">
-                <section class="bg-slate-200 py-3">
+                <section class="bg-gray-200 py-3">
                     <h5 class="h5 text-center">Editar Profesor</h5>
                     <div
                         class="row justify-content-center align-items-center g-2"
@@ -176,98 +176,227 @@
                 </section>
             </form>
         </section>
-        <section class="mt-2 py-2 bg-slate-200">
-            <form @submit.prevent="update_adscripcion">
-                <div
-                    class="row mt-3 justify-content-center align-items-center g-2"
-                >
-                    <div class="col-12 text-center">
-                        <h5 class="h5 text-gray-700">Adscripción</h5>
-                    </div>
-                </div>
-                <div class="row justify-content-center align-items-center g-2">
-                    <!-- carrera -->
-                    <div class="col-7">
-                        <InputLabel for="carreras" value="Carrera" />
-                        <vSelect
-                            id="carreras"
-                            v-if="this.carreras.length > 0"
-                            v-model="this.form.carrera_id"
-                            :options="this.carreras"
-                            label="nombre"
-                            class="bg-white focus:border-none h-8 border-gray-200 text-gray-900 text-sm text-capitalize"
-                        >
-                            <template
-                                #no-options="{ search, searching, loading }"
+        <section>
+            <div class="row">
+                <div class="col-6">
+                    <div class="adscripcion mx-1 bg-gray-200">
+                        <form @submit.prevent="update_adscripcion">
+                            <div
+                                class="row mt-3 justify-content-center align-items-center g-2"
                             >
-                                No hay datos...
-                            </template>
-                        </vSelect>
+                                <div class="col-12 text-center">
+                                    <h5 class="h5 text-gray-700">
+                                        Adscripción
+                                    </h5>
+                                </div>
+                            </div>
+                            <div
+                                class="row justify-content-center align-items-center g-2"
+                            >
+                                <!-- fecha -->
+                                <div class="col-6">
+                                    <InputLabel
+                                        for="fecha"
+                                        value="Fecha de ingreso a la carrera"
+                                    />
+                                    <TextInput
+                                        v-model="this.form.fecha"
+                                        id="fecha"
+                                        type="date"
+                                        autocomplete="off"
+                                    />
+                                    <InputError :message="form.errors.fecha" />
+                                </div>
+                                <!-- carrera -->
+                                <div class="col-10">
+                                    <InputLabel
+                                        for="carreras"
+                                        value="Carrera"
+                                    />
+                                    <vSelect
+                                        id="carreras"
+                                        v-if="this.carreras.length > 0"
+                                        v-model="this.form.carrera_id"
+                                        :options="this.carreras"
+                                        label="nombre"
+                                        class="bg-white focus:border-none h-8 border-gray-200 text-gray-900 text-sm text-capitalize"
+                                    >
+                                        <template
+                                            #no-options="{
+                                                search,
+                                                searching,
+                                                loading,
+                                            }"
+                                        >
+                                            No hay datos...
+                                        </template>
+                                    </vSelect>
 
-                        <InputError :message="form.errors.carrera_id" />
-                    </div>
-                    <!-- fecha -->
-                    <div class="col-3">
-                        <InputLabel
-                            for="fecha"
-                            value="Fecha de ingreso a la carrera"
-                        />
-                        <TextInput
-                            v-model="this.form.fecha"
-                            id="fecha"
-                            type="date"
-                            autocomplete="off"
-                        />
-                        <InputError :message="form.errors.fecha" />
+                                    <InputError
+                                        :message="form.errors.carrera_id"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12 text-center">
+                                    <SecondaryButton
+                                        @click="this.volver()"
+                                        class="mr-2"
+                                    >
+                                        Cancelar
+                                    </SecondaryButton>
+                                    <PrimaryButton
+                                        :class="{
+                                            'opacity-25': form.processing,
+                                        }"
+                                        :disabled="form.processing"
+                                    >
+                                        Guardar
+                                    </PrimaryButton>
+                                </div>
+                            </div>
+                        </form>
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Carrera</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    v-for="item in this.profesor.carreras"
+                                    :key="item.id"
+                                >
+                                    <td>
+                                        <span
+                                            class="text-capitalize"
+                                            v-text="item.nombre"
+                                        ></span>
+                                    </td>
+                                    <td>
+                                        <span>{{
+                                            moment(item.pivot.fecha).format(
+                                                "DD-MM-YYYY"
+                                            )
+                                        }}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <div class="col-12 text-center">
-                        <SecondaryButton @click="this.volver()" class="mr-2">
-                            Cancelar
-                        </SecondaryButton>
-                        <PrimaryButton
-                            :class="{ 'opacity-25': form.processing }"
-                            :disabled="form.processing"
-                        >
-                            Guardar
-                        </PrimaryButton>
+                <div class="col-6">
+                    <div class="promocion mx-1 bg-gray-200">
+                        <form @submit.prevent="update_promocion">
+                            <div
+                                class="row mt-3 justify-content-center align-items-center g-2"
+                            >
+                                <div class="col-12 text-center">
+                                    <h5 class="h5 text-gray-700">Promoción</h5>
+                                </div>
+                            </div>
+                            <div
+                                class="row justify-content-center align-items-center g-2"
+                            >
+                                <!-- fecha -->
+                                <div class="col-6">
+                                    <InputLabel
+                                        for="fecha"
+                                        value="Fecha de ingreso a la carrera"
+                                    />
+                                    <TextInput
+                                        v-model="this.form.fecha"
+                                        id="fecha"
+                                        type="date"
+                                        autocomplete="off"
+                                    />
+                                    <InputError :message="form.errors.fecha" />
+                                </div>
+                                <!-- carrera -->
+                                <div class="col-8">
+                                    <div class="flex">
+                                        <InputLabel for="grado" value="Grado" />
+                                        <InputError
+                                            class="ml-1"
+                                            :message="form.errors.grado_id"
+                                        />
+                                    </div>
+                                    <select
+                                        class="col-12 pt-1 h-8 text-gray-900 text-sm text-capitalize focus:border-gray-300 focus:ring-0 border-gray-300"
+                                        id="grado"
+                                        v-model="this.form.grado_id"
+                                    >
+                                        <option
+                                            disabled
+                                            selected
+                                            value="SELECCIONAR"
+                                        >
+                                            SELECCIONAR
+                                        </option>
+                                        <option
+                                            v-for="item in this.grados"
+                                            :key="item.id"
+                                            :value="item.id"
+                                            v-text="item.nombre"
+                                        ></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12 text-center">
+                                    <SecondaryButton
+                                        @click="this.volver()"
+                                        class="mr-2"
+                                    >
+                                        Cancelar
+                                    </SecondaryButton>
+                                    <PrimaryButton
+                                        :class="{
+                                            'opacity-25': form.processing,
+                                        }"
+                                        :disabled="form.processing"
+                                    >
+                                        Guardar
+                                    </PrimaryButton>
+                                </div>
+                            </div>
+                        </form>
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Grado</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    v-for="item in this.profesor.carreras"
+                                    :key="item.id"
+                                >
+                                    <td>
+                                        <span
+                                            class="text-capitalize"
+                                            v-text="item.nombre"
+                                        ></span>
+                                    </td>
+                                    <td>
+                                        <span>{{
+                                            moment(item.pivot.fecha).format(
+                                                "DD-MM-YYYY"
+                                            )
+                                        }}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </form>
+            </div>
         </section>
         <section>
             <div class="row mt-5 py-5">
-                <div class="col-12">
-                    <table class="table table-sm table-hover">
-                        <thead>
-                            <tr>
-                                <th>Carrera</th>
-                                <th>Fecha</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr
-                                v-for="item in this.profesor.carreras"
-                                :key="item.id"
-                            >
-                                <td>
-                                    <span
-                                        class="text-capitalize"
-                                        v-text="item.nombre"
-                                    ></span>
-                                </td>
-                                <td>
-                                    <span>{{
-                                        moment(item.pivot.fecha).format(
-                                            "DD-MM-YYYY"
-                                        )
-                                    }}</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <div class="col-12"></div>
             </div>
         </section>
     </AuthenticatedLayout>
@@ -310,6 +439,7 @@ export default defineComponent({
         snis: Object,
         categorias: Object,
         carreras: Object,
+        grados: Object,
     },
     data() {
         return {
@@ -340,6 +470,13 @@ export default defineComponent({
         },
         update_adscripcion() {
             this.form.type = "adscripcion";
+            this.form.put(this.route("profesor.update", this.profesor.id), {
+                onSuccess: (res) => [alertify.success("Actualizado.")],
+                onError: (msg) => [alertify.error("No Actualizado.")],
+            });
+        },
+        update_promocion() {
+            this.form.type = "promocion";
             this.form.put(this.route("profesor.update", this.profesor.id), {
                 onSuccess: (res) => [alertify.success("Actualizado.")],
                 onError: (msg) => [alertify.error("No Actualizado.")],

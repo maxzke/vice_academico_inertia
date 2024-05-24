@@ -3,12 +3,10 @@
     <AuthenticatedLayout>
         <section class="py-2">
             <form @submit.prevent="store">
-                <section class="bg-gray-200 py-3">
+                <section class="bg-gray-200 py-3 px-3">
                     <h5 class="h5 text-center">Registrar Profesor</h5>
-                    <div
-                        class="row justify-content-center align-items-center g-2"
-                    >
-                        <div class="col-5">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-6">
                             <div class="flex">
                                 <InputLabel
                                     for="nombre"
@@ -39,7 +37,7 @@
                                 autocomplete="off"
                             />
                         </div>
-                        <div class="col-2">
+                        <div class="col-3">
                             <div class="flex">
                                 <InputLabel for="sexo" value="Sexo" />
                                 <InputError
@@ -61,7 +59,7 @@
                         </div>
                     </div>
                     <div
-                        class="row mt-3 justify-content-center align-items-center g-2"
+                        class="row mt-3 justify-content-center align-items-center"
                     >
                         <!-- campus -->
                         <div class="col-3">
@@ -114,7 +112,7 @@
                             </select>
                         </div>
                         <!-- categorias -->
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="flex">
                                 <InputLabel for="sni" value="Categoria" />
                                 <InputError
@@ -138,13 +136,38 @@
                                 ></option>
                             </select>
                         </div>
+                        <!-- grado -->
+                        <div class="col-3">
+                            <div class="flex">
+                                <InputLabel for="sni" value="Grado" />
+                                <InputError
+                                    class="ml-1"
+                                    :message="form.errors.grado_id"
+                                />
+                            </div>
+                            <select
+                                class="mt-1 pt-1 h-8 text-gray-900 text-sm text-capitalize focus:border-gray-300 focus:ring-0 border-gray-300"
+                                id="categoria"
+                                v-model="this.form.grado_id"
+                            >
+                                <option disabled selected value="SELECCIONAR">
+                                    SELECCIONAR
+                                </option>
+                                <option
+                                    v-for="item in this.grados"
+                                    :key="item.id"
+                                    :value="item.id"
+                                    v-text="item.nombre"
+                                ></option>
+                            </select>
+                        </div>
                     </div>
                 </section>
 
                 <div
                     class="row mt-3 justify-content-center align-items-center g-2"
                 >
-                    <div class="col-12 text-center">
+                    <div class="col-6 text-center">
                         <h5 class="h5 text-gray-700">Adscripción</h5>
                     </div>
                 </div>
@@ -246,6 +269,7 @@ export default defineComponent({
         snis: Object,
         categorias: Object,
         carreras: Object,
+        grados: Object,
     },
     data() {
         return {
@@ -260,6 +284,7 @@ export default defineComponent({
                 sni_id: null,
                 categoria_id: null,
                 carrera_id: null,
+                grado_id: null,
             }),
         };
     },

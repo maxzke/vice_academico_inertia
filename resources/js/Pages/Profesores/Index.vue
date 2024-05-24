@@ -135,7 +135,7 @@ export default defineComponent({
             this.$inertia.get(this.route("profesor.create"));
         },
         show(profesor) {
-            this.$inertia.get(this.route("profesor.show", profesor));
+            this.$inertia.get(this.route("profesor.edit", profesor));
         },
     },
     watch: {
