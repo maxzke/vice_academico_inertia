@@ -74,7 +74,8 @@ class ProfesorController extends Controller
                 'campus_id'=> 'required',
                 'sni_id'=> 'required',
                 'categoria_id'=> 'required',
-                'carrera_id'=> 'required'
+                'carrera_id'=> 'required',
+                'grado_id'=> 'required'
             ],
             [
                 'nombre.required' => 'es requerido',
@@ -103,6 +104,10 @@ class ProfesorController extends Controller
                         'fecha' => $request->fecha,
                     ]
             );
+            $profesor->grados()->attach($request->grado_id,
+        [
+            'fecha' => $request->fecha_grado,
+        ]);
             return back()->with(['success'=> true]);
         } catch (\Throwable $th) {
             //throw $th;
@@ -129,7 +134,7 @@ class ProfesorController extends Controller
         $carreras= Carrera::all();
         $grados = Grado::all();
 
-        $profesorConCarreras = Profesor::with(['carreras' => fn($query) => $query->orderBy('id','desc')])->find($profesor->id);
+        $profesorConCarreras = Profesor::with(['carreras' => fn($query) => $query->orderBy('id','desc')])->with('grados')->find($profesor->id);
         return Inertia::render('Profesores/Edit',
         [
             'profesor' => $profesorConCarreras,
@@ -169,10 +174,36 @@ class ProfesorController extends Controller
                 return back()->with(['success'=> true]);
                 break;
             case 'adscripcion':
+                $request->validate(
+                    [            
+                        'fecha' => 'required',
+                        'carrera_id' => 'required'
+                    ]
+                    );
                 try {
                     $profesor->carreras()->attach($request->carrera_id['id'],
                             [
                                 'fecha' => $request->fecha,
+                            ]
+                    );
+                    return back()->with(['success'=> true]);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    return back()->withErrors(['error'=> 'ya se encuentra registrado en la carrera']);
+                }   
+                break;
+            case 'promocion':
+                $request->validate(
+                        [            
+                            'fecha_grado' => 'required',
+                            'grado_id' => 'required'
+                        ]
+                        );
+                try {
+                    
+                    $profesor->grados()->attach($request->grado_id,
+                            [
+                                'fecha' => $request->fecha_grado,
                             ]
                     );
                     return back()->with(['success'=> true]);

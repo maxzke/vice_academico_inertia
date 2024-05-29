@@ -23,14 +23,14 @@
                         <div class="col-3">
                             <InputLabel for="ingreso" value="Ingreso" />
                             <TextInput
-                                v-model="this.form.ingreso"
+                                v-model="this.form.fecha_ingreso"
                                 id="ingreso"
                                 type="date"
                                 autocomplete="off"
                             />
                             <InputError
                                 class="mt-2"
-                                :message="form.errors.ingreso"
+                                :message="form.errors.fecha_ingreso"
                             />
                         </div>
                         <div class="col-2">
@@ -169,7 +169,7 @@
                                 :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing"
                             >
-                                Guardar
+                                Actualizar
                             </PrimaryButton>
                         </div>
                     </div>
@@ -177,12 +177,12 @@
             </form>
         </section>
         <section>
-            <div class="row">
+            <div class="row mt-1">
                 <div class="col-6">
-                    <div class="adscripcion mx-1 bg-gray-200">
+                    <div class="adscripcion bg-gray-200 py-3">
                         <form @submit.prevent="update_adscripcion">
                             <div
-                                class="row mt-3 justify-content-center align-items-center g-2"
+                                class="row justify-content-center align-items-center g-2"
                             >
                                 <div class="col-12 text-center">
                                     <h5 class="h5 text-gray-700">
@@ -198,6 +198,11 @@
                                     <InputLabel
                                         for="fecha"
                                         value="Fecha de ingreso a la carrera"
+                                        :class="
+                                            form.errors.fecha
+                                                ? 'text-danger'
+                                                : ''
+                                        "
                                     />
                                     <TextInput
                                         v-model="this.form.fecha"
@@ -205,13 +210,17 @@
                                         type="date"
                                         autocomplete="off"
                                     />
-                                    <InputError :message="form.errors.fecha" />
                                 </div>
                                 <!-- carrera -->
                                 <div class="col-10">
                                     <InputLabel
                                         for="carreras"
                                         value="Carrera"
+                                        :class="
+                                            form.errors.carrera_id
+                                                ? 'text-danger'
+                                                : ''
+                                        "
                                     />
                                     <vSelect
                                         id="carreras"
@@ -231,10 +240,6 @@
                                             No hay datos...
                                         </template>
                                     </vSelect>
-
-                                    <InputError
-                                        :message="form.errors.carrera_id"
-                                    />
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -256,41 +261,41 @@
                                 </div>
                             </div>
                         </form>
-                        <table class="table table-sm table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Carrera</th>
-                                    <th>Fecha</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr
-                                    v-for="item in this.profesor.carreras"
-                                    :key="item.id"
-                                >
-                                    <td>
-                                        <span
-                                            class="text-capitalize"
-                                            v-text="item.nombre"
-                                        ></span>
-                                    </td>
-                                    <td>
-                                        <span>{{
-                                            moment(item.pivot.fecha).format(
-                                                "DD-MM-YYYY"
-                                            )
-                                        }}</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>Carrera</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                v-for="item in this.profesor.carreras"
+                                :key="item.id"
+                            >
+                                <td>
+                                    <span
+                                        class="text-capitalize"
+                                        v-text="item.nombre"
+                                    ></span>
+                                </td>
+                                <td>
+                                    <span>{{
+                                        moment(item.pivot.fecha).format(
+                                            "DD-MM-YYYY"
+                                        )
+                                    }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="col-6">
-                    <div class="promocion mx-1 bg-gray-200">
+                    <div class="promocion bg-gray-200 py-3">
                         <form @submit.prevent="update_promocion">
                             <div
-                                class="row mt-3 justify-content-center align-items-center g-2"
+                                class="row justify-content-center align-items-center g-2"
                             >
                                 <div class="col-12 text-center">
                                     <h5 class="h5 text-gray-700">Promoción</h5>
@@ -303,23 +308,31 @@
                                 <div class="col-6">
                                     <InputLabel
                                         for="fecha"
-                                        value="Fecha de ingreso a la carrera"
+                                        value="Fecha de la promoción"
+                                        :class="
+                                            form.errors.fecha_grado
+                                                ? 'text-danger'
+                                                : ''
+                                        "
                                     />
                                     <TextInput
-                                        v-model="this.form.fecha"
+                                        v-model="this.form.fecha_grado"
                                         id="fecha"
                                         type="date"
                                         autocomplete="off"
                                     />
-                                    <InputError :message="form.errors.fecha" />
                                 </div>
                                 <!-- carrera -->
                                 <div class="col-8">
                                     <div class="flex">
-                                        <InputLabel for="grado" value="Grado" />
-                                        <InputError
-                                            class="ml-1"
-                                            :message="form.errors.grado_id"
+                                        <InputLabel
+                                            for="grado"
+                                            value="Grado"
+                                            :class="
+                                                form.errors.grado_id
+                                                    ? 'text-danger'
+                                                    : ''
+                                            "
                                         />
                                     </div>
                                     <select
@@ -362,35 +375,35 @@
                                 </div>
                             </div>
                         </form>
-                        <table class="table table-sm table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Grado</th>
-                                    <th>Fecha</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr
-                                    v-for="item in this.profesor.carreras"
-                                    :key="item.id"
-                                >
-                                    <td>
-                                        <span
-                                            class="text-capitalize"
-                                            v-text="item.nombre"
-                                        ></span>
-                                    </td>
-                                    <td>
-                                        <span>{{
-                                            moment(item.pivot.fecha).format(
-                                                "DD-MM-YYYY"
-                                            )
-                                        }}</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>Grado</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                v-for="item in this.profesor.grados"
+                                :key="item.id"
+                            >
+                                <td>
+                                    <span
+                                        class="text-capitalize"
+                                        v-text="item.nombre"
+                                    ></span>
+                                </td>
+                                <td>
+                                    <span>{{
+                                        moment(item.pivot.fecha).format(
+                                            "DD-MM-YYYY"
+                                        )
+                                    }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
@@ -449,13 +462,16 @@ export default defineComponent({
                 nombre: this.profesor.nombre,
                 apellido_p: this.profesor.apellido_p,
                 apellido_m: this.profesor.apellido_m,
-                ingreso: this.profesor.ingreso,
+                fecha_ingreso: this.profesor.ingreso,
                 sexo: this.profesor.sexo,
-                fecha: this.profesor.fecha,
+                fecha_adscripcion: null,
                 campus_id: this.profesor.campus_id,
                 sni_id: this.profesor.sni_id,
                 categoria_id: this.profesor.categoria_id,
-                carrera_id: this.profesor.carrera_id,
+                carrera_id: null,
+                fecha_carrera: null,
+                fecha_grado: null,
+                grado_id: null,
             }),
         };
     },
