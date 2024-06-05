@@ -1,23 +1,23 @@
 <template>
     <Head title="Profesores" />
     <AuthenticatedLayout>
-        <section class="py-2">
-            <form @submit.prevent="update">
+        <form @submit.prevent="store">
+            <section class="py-2">
                 <section class="bg-gray-200 py-3">
                     <h5 class="h5 text-center">Editar Profesor</h5>
                     <div
                         class="row justify-content-center align-items-center g-2"
                     >
                         <div class="col-5">
-                            <InputLabel for="nombre" value="Nombre completo" />
+                            <InputLabel
+                                for="nombre"
+                                value="Nombre completo"
+                                :class="form.errors.nombre ? 'text-danger' : ''"
+                            />
                             <TextInput
                                 v-model="this.form.nombre"
                                 id="nombre"
                                 autocomplete="off"
-                            />
-                            <InputError
-                                class="mt-2"
-                                :message="form.errors.nombre"
                             />
                         </div>
                         <div class="col-3">
@@ -34,7 +34,11 @@
                             />
                         </div>
                         <div class="col-2">
-                            <InputLabel for="sexo" value="Sexo" />
+                            <InputLabel
+                                for="sexo"
+                                value="Sexo"
+                                :class="form.errors.sexo ? 'text-danger' : ''"
+                            />
                             <select
                                 class="mt-1 pt-1 h-8 text-gray-900 text-sm text-capitalize focus:border-gray-300 focus:ring-0 border-gray-300"
                                 id="sexo"
@@ -46,15 +50,18 @@
                                 <option value="mujer">Mujer</option>
                                 <option value="hombre">Hombre</option>
                             </select>
-                            <InputError :message="form.errors.sexo" />
                         </div>
                     </div>
-                    <div
-                        class="row mt-3 justify-content-center align-items-center g-2"
-                    >
+                    <div class="row mt-3 text-center g-2">
                         <!-- campus -->
-                        <div class="col-3">
-                            <InputLabel for="campus" value="Campus" />
+                        <div class="col-4">
+                            <InputLabel
+                                for="campus"
+                                value="Campus"
+                                :class="
+                                    form.errors.campus_id ? 'text-danger' : ''
+                                "
+                            />
                             <select
                                 class="mt-1 pt-1 h-8 text-gray-900 text-sm text-capitalize focus:border-gray-300 focus:ring-0 border-gray-300"
                                 id="campus"
@@ -84,12 +91,14 @@
                                     No hay datos...
                                 </template>
                             </vSelect> -->
-
-                            <InputError :message="form.errors.campus_id" />
                         </div>
                         <!-- sni -->
-                        <div class="col-3">
-                            <InputLabel for="sni" value="Sni" />
+                        <div class="col-4">
+                            <InputLabel
+                                for="sni"
+                                value="Sni"
+                                :class="form.errors.sni_id ? 'text-danger' : ''"
+                            />
                             <select
                                 class="mt-1 pt-1 h-8 text-gray-900 text-sm text-capitalize focus:border-gray-300 focus:ring-0 border-gray-300"
                                 id="sni"
@@ -119,11 +128,18 @@
                                     No hay datos...
                                 </template>
                             </vSelect> -->
-                            <InputError :message="form.errors.sni_id" />
                         </div>
                         <!-- categorias -->
                         <div class="col-4">
-                            <InputLabel for="categoria" value="Categoria" />
+                            <InputLabel
+                                for="categoria"
+                                value="Categoria"
+                                :class="
+                                    form.errors.categoria_id
+                                        ? 'text-danger'
+                                        : ''
+                                "
+                            />
                             <select
                                 class="mt-1 pt-1 h-8 text-gray-900 text-sm text-capitalize focus:border-gray-300 focus:ring-0 border-gray-300"
                                 id="categoria"
@@ -153,28 +169,14 @@
                                     No hay datos...
                                 </template>
                             </vSelect> -->
-
-                            <InputError :message="form.errors.categoria_id" />
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-12 text-center">
-                            <PrimaryButton
-                                :class="{ 'opacity-25': form.processing }"
-                                :disabled="form.processing"
-                            >
-                                Actualizar
-                            </PrimaryButton>
                         </div>
                     </div>
                 </section>
-            </form>
-        </section>
-        <section>
-            <div class="row mt-1">
-                <div class="col-6">
-                    <div class="adscripcion bg-gray-200 py-3">
-                        <form @submit.prevent="update_adscripcion">
+            </section>
+            <section>
+                <div class="row mt-1">
+                    <div class="col-6">
+                        <div class="adscripcion bg-gray-200 py-3">
                             <div
                                 class="row justify-content-center align-items-center g-2"
                             >
@@ -192,18 +194,14 @@
                                     <InputLabel
                                         for="fecha"
                                         value="Fecha de ingreso a la carrera"
-                                        :class="
-                                            form.errors.fecha
-                                                ? 'text-danger'
-                                                : ''
-                                        "
                                     />
                                     <TextInput
-                                        v-model="this.form.fecha_adscripcion"
+                                        v-model="this.form.fecha"
                                         id="fecha"
                                         type="date"
                                         autocomplete="off"
                                     />
+                                    <InputError :message="form.errors.fecha" />
                                 </div>
                                 <!-- carrera -->
                                 <div class="col-10">
@@ -236,52 +234,10 @@
                                     </vSelect>
                                 </div>
                             </div>
-                            <div class="row mt-3">
-                                <div class="col-12 text-center">
-                                    <PrimaryButton
-                                        :class="{
-                                            'opacity-25': form.processing,
-                                        }"
-                                        :disabled="form.processing"
-                                    >
-                                        Guardar
-                                    </PrimaryButton>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
-                    <table class="table table-sm table-hover">
-                        <thead>
-                            <tr>
-                                <th>Carrera</th>
-                                <th>Fecha</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr
-                                v-for="item in this.profesor.carreras"
-                                :key="item.id"
-                            >
-                                <td>
-                                    <span
-                                        class="text-capitalize"
-                                        v-text="item.nombre"
-                                    ></span>
-                                </td>
-                                <td>
-                                    <span>{{
-                                        moment(item.pivot.fecha).format(
-                                            "DD-MM-YYYY"
-                                        )
-                                    }}</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-6">
-                    <div class="promocion bg-gray-200 py-3">
-                        <form @submit.prevent="update_promocion">
+                    <div class="col-6">
+                        <div class="promocion bg-gray-200 py-3">
                             <div
                                 class="row justify-content-center align-items-center g-2"
                             >
@@ -296,18 +252,16 @@
                                 <div class="col-6">
                                     <InputLabel
                                         for="fecha"
-                                        value="Fecha de la promoción"
-                                        :class="
-                                            form.errors.fecha_grado
-                                                ? 'text-danger'
-                                                : ''
-                                        "
+                                        value="Fecha de ingreso a la carrera"
                                     />
                                     <TextInput
                                         v-model="this.form.fecha_grado"
                                         id="fecha"
                                         type="date"
                                         autocomplete="off"
+                                    />
+                                    <InputError
+                                        :message="form.errors.fecha_grado"
                                     />
                                 </div>
                                 <!-- carrera -->
@@ -344,60 +298,24 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row mt-3">
-                                <div class="col-12 text-center">
-                                    <PrimaryButton
-                                        :class="{
-                                            'opacity-25': form.processing,
-                                        }"
-                                        :disabled="form.processing"
-                                    >
-                                        Guardar
-                                    </PrimaryButton>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
-                    <table class="table table-sm table-hover">
-                        <thead>
-                            <tr>
-                                <th>Grado</th>
-                                <th>Fecha</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr
-                                v-for="item in this.profesor.grados"
-                                :key="item.id"
-                            >
-                                <td>
-                                    <span
-                                        class="text-capitalize"
-                                        v-text="item.nombre"
-                                    ></span>
-                                </td>
-                                <td>
-                                    <span>{{
-                                        moment(item.pivot.fecha).format(
-                                            "DD-MM-YYYY"
-                                        )
-                                    }}</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
-            </div>
-        </section>
-        <section>
-            <div class="row pb-5">
+            </section>
+            <div class="row pt-3">
                 <div class="col-12 text-center">
-                    <SecondaryButton @click="this.volver()">
-                        <i class="fa-solid fa-angle-left"></i> Volver
+                    <SecondaryButton @click="this.volver()" class="mr-2">
+                        Cancelar
                     </SecondaryButton>
+                    <PrimaryButton
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                    >
+                        Guardar
+                    </PrimaryButton>
                 </div>
             </div>
-        </section>
+        </form>
     </AuthenticatedLayout>
 </template>
 
@@ -413,10 +331,9 @@ import InputError from "@/Components/InputError.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import vSelect from "vue-select";
-import { Link, router } from "@inertiajs/vue3";
+import { Link } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
 import "vue-select/dist/vue-select.css";
-import moment from "moment";
 export default defineComponent({
     components: {
         AuthenticatedLayout,
@@ -433,60 +350,43 @@ export default defineComponent({
         SecondaryButton,
     },
     props: {
-        profesor: Object,
         campus: Object,
         snis: Object,
         categorias: Object,
         carreras: Object,
         grados: Object,
-        volver_url: String,
     },
     data() {
         return {
-            moment: moment,
             form: this.$inertia.form({
-                type: null,
-                nombre: this.profesor.nombre,
-                apellido_p: this.profesor.apellido_p,
-                apellido_m: this.profesor.apellido_m,
-                fecha_ingreso: this.profesor.ingreso,
-                sexo: this.profesor.sexo,
-                fecha_adscripcion: null,
-                campus_id: this.profesor.campus_id,
-                sni_id: this.profesor.sni_id,
-                categoria_id: this.profesor.categoria_id,
+                nombre: null,
+                apellido_p: null,
+                apellido_m: null,
+                ingreso: null,
+                sexo: null,
+                fecha: null,
+                campus_id: null,
+                sni_id: null,
+                categoria_id: null,
                 carrera_id: null,
-                fecha_grado: null,
                 grado_id: null,
+                fecha_grado: null,
             }),
         };
     },
     mounted() {},
     methods: {
-        update() {
-            this.form.type = "profesor";
-            this.form.put(this.route("profesor.update", this.profesor.id), {
-                onSuccess: (res) => [alertify.success("Actualizado.")],
-                onError: (msg) => [alertify.error("No Actualizado.")],
-            });
-        },
-        update_adscripcion() {
-            this.form.type = "adscripcion";
-            this.form.put(this.route("profesor.update", this.profesor.id), {
-                onSuccess: (res) => [alertify.success("Actualizado.")],
-                onError: (msg) => [alertify.error("No Actualizado.")],
-            });
-        },
-        update_promocion() {
-            this.form.type = "promocion";
-            this.form.put(this.route("profesor.update", this.profesor.id), {
-                onSuccess: (res) => [alertify.success("Actualizado.")],
-                onError: (msg) => [alertify.error("No Actualizado.")],
+        store() {
+            this.form.post(this.route("profesor.store"), {
+                onSuccess: (res) => [
+                    this.form.reset(),
+                    alertify.success("Guardado."),
+                ],
+                onError: (msg) => [alertify.error("No guardado.")],
             });
         },
         volver() {
-            router.visit(this.volver_url);
-            //this.$inertia.get(this.route("profesor.index"));
+            this.$inertia.get(this.route("profesor.index"));
         },
     },
     watch: {},

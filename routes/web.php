@@ -10,6 +10,7 @@ use App\Http\Controllers\CicloController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\GradoController;
 use App\Http\Controllers\ProfesorController;
+use App\Http\Controllers\CuerpoAcademicoController;
 
 
 use Illuminate\Foundation\Application;
@@ -43,6 +44,7 @@ Route::middleware('auth','isActive')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     Route::resource('profesor', ProfesorController::class);
+    Route::resource('cuerpo_academico', CuerpoAcademicoController::class);
     Route::resource('campus', CampusController::class);
     Route::resource('carreras', CarreraController::class);
     Route::resource('materias', MateriaController::class);

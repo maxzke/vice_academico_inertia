@@ -1,11 +1,11 @@
 <template>
-    <Head title="Profesores" />
+    <Head title="Cuerpos Académicos" />
     <AuthenticatedLayout>
         <section class="py-2">
             <div class="row">
                 <div class="col-12 col-md-4 text-gray-700">
                     <h5 class="flex align-items-center h5 ps-2">
-                        Profesores
+                        Cuerpos Académicos
                         <span class="badge bg-gray-400 ms-2">{{
                             this.totalItem
                         }}</span>
@@ -34,10 +34,6 @@
                     <table class="w-full whitespace-nowrap">
                         <tr class="text-left font-bold">
                             <th class="pb-3 pt-6 px-6">Nombre</th>
-                            <th class="pb-3 pt-6 px-6">Campus</th>
-                            <th class="pb-3 pt-6 px-6">Categoria</th>
-                            <th class="pb-3 pt-6 px-6">Sni</th>
-                            <th class="pb-3 pt-6 px-6">Carrera</th>
                             <th></th>
                         </tr>
                         <tbody>
@@ -52,35 +48,6 @@
                                         class="px-4"
                                         v-text="item.nombre"
                                     ></span>
-                                </td>
-                                <td class="text-capitalize border-t py-3">
-                                    <span
-                                        class="px-4"
-                                        v-text="item.campus.nombre"
-                                    ></span>
-                                </td>
-                                <td class="text-capitalize border-t py-3">
-                                    <span
-                                        class="px-4"
-                                        v-text="item.categoria.nombre"
-                                    ></span>
-                                </td>
-                                <td class="text-capitalize border-t py-3">
-                                    <span
-                                        class="px-4"
-                                        v-text="item.sni.nombre"
-                                    ></span>
-                                </td>
-                                <td class="text-capitalize border-t py-3">
-                                    <span
-                                        class="px-4"
-                                        v-text="item.carreras[0].nombre"
-                                    ></span>
-                                </td>
-                                <td class="border-t">
-                                    <i
-                                        class="px-4 fa-solid fa-angle-right text-slate-400"
-                                    ></i>
                                 </td>
                             </tr>
                         </tbody>
@@ -132,10 +99,10 @@ export default defineComponent({
     mounted() {},
     methods: {
         create() {
-            this.$inertia.get(this.route("profesor.create"));
+            this.$inertia.get(this.route("cuerpo_academico.create"));
         },
-        show(profesor) {
-            this.$inertia.get(this.route("profesor.show", profesor));
+        show(item) {
+            this.$inertia.get(this.route("cuerpo_academico.show", item));
         },
     },
     watch: {

@@ -1,11 +1,11 @@
 <template>
-    <div class="flex h-screen bg-gray-200">
+    <div class="flex h-screen bg-slate-50">
         <Navigation />
         <div class="flex flex-1 flex-col overflow-hidden">
             <Header />
-            <main class="flex-1 overflow-y-auto overflow-x-hidden bg-panel">
+            <main class="flex-1 overflow-y-auto overflow-x-hidden py-3">
                 <div class="container-fluid mx-auto px-5">
-                    <h4 class="mb-2 text-xl font-medium text-indigo-800 pt-2">
+                    <h4 class="text-xl font-medium text-indigo-800">
                         <slot name="header" />
                     </h4>
                     <slot />
@@ -21,6 +21,6 @@ import Navigation from "@/Layouts/Navigation.vue";
 </script>
 <style>
 .bg-panel {
-    background-color: #f1f5f9;
+    background-color: #90bdeb;
 }
 </style>

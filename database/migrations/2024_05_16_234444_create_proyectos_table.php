@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('proyectos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('cuerpo_academico_id');
+            $table->foreign('cuerpo_academico_id')->references('id')->on('cuerpos_academicos');
             $table->string('nombre')->unique();
             $table->timestamps();
         });

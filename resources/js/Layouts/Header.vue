@@ -1,7 +1,5 @@
 <template>
-    <header
-        class="flex items-center justify-between border-b-4 bg-teal-600 px-6 py-3"
-    >
+    <header class="flex items-center justify-between bg-teal-600 px-4 py-2">
         <div class="flex items-center">
             <button
                 @click="

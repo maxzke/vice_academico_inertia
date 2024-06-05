@@ -44,6 +44,13 @@
             >
             <nav-link
                 class="mt-2"
+                :href="route('cuerpo_academico.index')"
+                :active="route().current('cuerpo_academico.*')"
+                ><i class="fa-solid fa-people-group"></i>
+                <span class="ps-2">Cuerpo A.</span></nav-link
+            >
+            <nav-link
+                class="mt-2"
                 :href="route('campus.index')"
                 :active="route().current('campus.*')"
                 ><i class="fa-solid fa-location-dot"></i>

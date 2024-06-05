@@ -12,4 +12,11 @@ class CuerpoAcademico extends Model
     protected $fillable = [
         'nombre',
     ];
+
+    public function profesores(){
+        return $this->belongsToMany(Profesor::class);
+    }
+    public function proyectos(){
+        return $this->hasMany(Proyecto::class);
+    }
 }

@@ -120,7 +120,17 @@ class ProfesorController extends Controller
      */
     public function show(Profesor $profesor)
     {
-        
+        $volver_url = url()->previous();
+        return Inertia::render('Profesores/Show',
+        [
+            'profesor' => $profesor,
+            'campus' => $profesor->campus,
+            'snis' => $profesor->sni,
+            'categorias' => $profesor->categoria,
+            'carreras' => $profesor->carreras,
+            'grados' => $profesor->grados,
+            'volver_url' => $volver_url
+        ]);
     }
 
     /**
@@ -133,8 +143,9 @@ class ProfesorController extends Controller
         $categorias= Categoria::all();
         $carreras= Carrera::all();
         $grados = Grado::all();
-
-        $profesorConCarreras = Profesor::with(['carreras' => fn($query) => $query->orderBy('id','desc')])->with('grados')->find($profesor->id);
+        $volver_url = url()->previous();
+        //$profesorConCarreras = Profesor::with(['carreras' => fn($query) => $query->orderBy('id','desc')])->with('grados')->find($profesor->id);
+        $profesorConCarreras = Profesor::with('carreras')->with('grados')->find($profesor->id);
         return Inertia::render('Profesores/Edit',
         [
             'profesor' => $profesorConCarreras,
@@ -142,7 +153,8 @@ class ProfesorController extends Controller
             'snis' => $snis,
             'categorias' => $categorias,
             'carreras' => $carreras,
-            'grados' => $grados
+            'grados' => $grados,
+            'volver_url' => $volver_url
         ]);
     }
 
@@ -176,14 +188,14 @@ class ProfesorController extends Controller
             case 'adscripcion':
                 $request->validate(
                     [            
-                        'fecha' => 'required',
+                        'fecha_adscripcion' => 'required',
                         'carrera_id' => 'required'
                     ]
                     );
                 try {
                     $profesor->carreras()->attach($request->carrera_id['id'],
                             [
-                                'fecha' => $request->fecha,
+                                'fecha' => $request->fecha_adscripcion,
                             ]
                     );
                     return back()->with(['success'=> true]);

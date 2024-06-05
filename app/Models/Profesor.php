@@ -21,10 +21,11 @@ class Profesor extends Model
     ];
 
     public function carreras(){
-        return $this->belongsToMany(Carrera::class)->withPivot('fecha');                                                     
+        return $this->belongsToMany(Carrera::class)->withPivot('fecha')->orderBy('fecha','desc');                                                 
     }
+    
     public function grados(){
-        return $this->belongsToMany(Grado::class)->withPivot('fecha');
+        return $this->belongsToMany(Grado::class)->withPivot('fecha')->orderBy('fecha','desc');
     }
     public function campus(){
         return $this->belongsTo(Campus::class);
@@ -34,6 +35,9 @@ class Profesor extends Model
     }
     public function sni(){
         return $this->belongsTo(Sni::class);
+    }
+    public function cuerpos_academicos(){
+        return $this->belongsToMany(CuerpoAcademico::class);
     }
 
     protected function nombre(): Attribute

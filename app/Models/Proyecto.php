@@ -11,5 +11,10 @@ class Proyecto extends Model
     protected $table = 'proyecto'; 
     protected $fillable = [
         'nombre',
+        'cuerpo_academico_id'
     ];
+
+    public function cuerpo_academico(){
+        return $this->belongsTo(CuerpoAcademico::class);
+    }
 }
