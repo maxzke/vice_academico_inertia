@@ -47,39 +47,39 @@
                                 :key="item.id"
                                 @click="show(item)"
                             >
-                                <td class="text-capitalize border-t py-3">
+                                <td class="text-capitalize border-t py-2">
                                     <span
-                                        class="px-4"
+                                        class="px-2"
                                         v-text="item.nombre"
                                     ></span>
                                 </td>
-                                <td class="text-capitalize border-t py-3">
+                                <td class="text-capitalize border-t py-2">
                                     <span
-                                        class="px-4"
+                                        class="px-2"
                                         v-text="item.campus.nombre"
                                     ></span>
                                 </td>
-                                <td class="text-capitalize border-t py-3">
+                                <td class="text-capitalize border-t py-2">
                                     <span
-                                        class="px-4"
+                                        class="px-2"
                                         v-text="item.categoria.nombre"
                                     ></span>
                                 </td>
-                                <td class="text-capitalize border-t py-3">
+                                <td class="text-capitalize border-t py-2">
                                     <span
-                                        class="px-4"
+                                        class="px-2"
                                         v-text="item.sni.nombre"
                                     ></span>
                                 </td>
-                                <td class="text-capitalize border-t py-3">
+                                <td class="text-capitalize border-t py-2">
                                     <span
-                                        class="px-4"
+                                        class="px-2"
                                         v-text="item.carreras[0].nombre"
                                     ></span>
                                 </td>
                                 <td class="border-t">
                                     <i
-                                        class="px-4 fa-solid fa-angle-right text-slate-400"
+                                        class="px-2 fa-solid fa-angle-right text-slate-400"
                                     ></i>
                                 </td>
                             </tr>

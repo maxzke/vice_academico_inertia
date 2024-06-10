@@ -31,9 +31,10 @@
                 <div
                     class="col-12 bg-white rounded-md shadow overflow-x-auto px-0"
                 >
-                    <table class="w-full whitespace-nowrap">
+                    <table class="w-full whitespace-nowrap table-sm">
                         <tr class="text-left font-bold">
                             <th class="pb-3 pt-6 px-6">Nombre</th>
+                            <th class="pb-3 pt-6 px-6">Proyecto</th>
                             <th></th>
                         </tr>
                         <tbody>
@@ -43,11 +44,21 @@
                                 :key="item.id"
                                 @click="show(item)"
                             >
-                                <td class="text-capitalize border-t py-3">
+                                <td class="text-capitalize border-t py-2">
                                     <span
                                         class="px-4"
                                         v-text="item.nombre"
                                     ></span>
+                                </td>
+                                <td class="text-capitalize border-t py-2">
+                                    telecomunicaciones especializdas para
+                                    mejorar el ambiente especializdas para
+                                    mejorar el ambiente
+                                </td>
+                                <td class="text-capitalize border-t py-2">
+                                    <i
+                                        class="fa-solid fa-chevron-right text-slate-400"
+                                    ></i>
                                 </td>
                             </tr>
                         </tbody>

@@ -16,6 +16,7 @@
         <!-- alertify -->
         <link rel="stylesheet" href="{{ asset('assets/css/alertify/alertify.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/alertify/themes/default.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/vue-multiselect.css') }}">
         <!-- Scripts -->
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])

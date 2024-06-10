@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\CuerpoAcademico;
+use App\Models\CuerpoAcademicoProfesor;
+use App\Models\Profesor;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Request as PostRequest;
@@ -35,7 +37,11 @@ class CuerpoAcademicoController extends Controller
      */
     public function create()
     {
-        //
+        $profesores = Profesor::orderBy('nombre','asc')->get();
+        return Inertia::render('CuerposAcademicos/Add',
+        [
+            'all' => $profesores,
+        ]);
     }
 
     /**
@@ -43,7 +49,31 @@ class CuerpoAcademicoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(
+            [            
+                'nombre' => 'required|string|unique:cuerpos_academicos',
+                'profesores' => 'required'
+            ],
+            [
+                'nombre.required' => 'El nombre es requerido',
+                'nombre.unique' => 'El nombre ya se encuentra registrado',
+                'profesores.required' => 'El profesor es requerido',
+            ]
+        );
+        $cuerpo_academico = CuerpoAcademico::create(
+            [
+                'nombre' => $request->nombre
+            ]
+        );
+//return $request->profesores;
+        foreach ($request->profesores as $key) {
+            CuerpoAcademicoProfesor::create(
+                [
+                    'profesor_id' => $key['id'],
+                    'cuerpo_academico_id' => $cuerpo_academico->id
+                ]
+            );
+        }
     }
 
     /**
@@ -51,7 +81,12 @@ class CuerpoAcademicoController extends Controller
      */
     public function show(CuerpoAcademico $cuerpoAcademico)
     {
-        //
+        return Inertia::render('CuerposAcademicos/Show',
+        [
+            'cuerpo_academico' => $cuerpoAcademico,
+            'profesores' => CuerpoAcademico::with('profesores.carreras')->with('profesores.grados')->with('profesores.sni')->with('profesores.campus')->with('profesores.categoria')->find($cuerpoAcademico->id),
+            'proyectos' => $cuerpoAcademico->proyecto
+        ]);
     }
 
     /**
